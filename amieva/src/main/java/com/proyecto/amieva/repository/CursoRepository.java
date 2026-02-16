@@ -8,5 +8,5 @@ import com.proyecto.amieva.entity.Curso;
 
 public interface CursoRepository extends JpaRepository<Curso, Long>{
 	
-	List<Curso> findByTitulo(String nombre);
+	List<Curso> findByNombre(String nombre);
 }
