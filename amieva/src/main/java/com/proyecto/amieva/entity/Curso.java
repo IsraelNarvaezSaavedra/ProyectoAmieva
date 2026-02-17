@@ -19,7 +19,7 @@ public class Curso {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
-	@Column(nullable = false, length = 50, unique = true)
+	@Column(nullable = false, length = 50/*, unique = true*/)
     @NotBlank(message = "El nombre no puede estar vacío")
     private String nombre;
 	

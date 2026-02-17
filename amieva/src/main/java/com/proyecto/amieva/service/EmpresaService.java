@@ -24,7 +24,7 @@ public class EmpresaService {
 	}
 	
 	//El .orElseThrow es necesario porque el findById devuelve un Optional, y el orElseThrow se encarga de lanzar una excepcion si no se encuentra la empresa con el id especificado
-	public Empresa getEmpresaPorId(Long id, Empresa empresa) {
+	public Empresa getEmpresaPorId(Long id) {
 		return empresaRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Empresa no encontrada con ID: " + id));
 	}
