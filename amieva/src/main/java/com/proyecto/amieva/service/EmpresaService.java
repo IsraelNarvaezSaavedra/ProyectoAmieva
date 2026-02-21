@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.proyecto.amieva.entity.Empresa;
 import com.proyecto.amieva.repository.EmpresaRepository;
@@ -19,17 +20,20 @@ public class EmpresaService {
 	}
 	
 	//Listar todas las empresas
+	@Transactional(readOnly = true)
 	public List<Empresa> listarEmpresas() {
 		return empresaRepository.findAll();
 	}
 	
 	//El .orElseThrow es necesario porque el findById devuelve un Optional, y el orElseThrow se encarga de lanzar una excepcion si no se encuentra la empresa con el id especificado
+	@Transactional(readOnly = true)
 	public Empresa getEmpresaPorId(Long id) {
 		return empresaRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Empresa no encontrada con ID: " + id));
 	}
 	
 	//Eliminar empresa por id
+	@Transactional
 	public void eliminarEmpresaPorId(Long id) {
 		empresaRepository.deleteById(id);
 	}

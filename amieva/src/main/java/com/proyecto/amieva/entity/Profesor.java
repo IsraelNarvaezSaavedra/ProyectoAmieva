@@ -31,10 +31,10 @@ public class Profesor {
 	
 	@Column(nullable = false)
 	@NotBlank( message = "La contraseña no puede estar vacía")
-	private String contraseña;
+	private String contrasena;
 	
 	@Column(name = "es_directiva")
-	private boolean tipo;
+	private boolean es_directivo;
 
 	/*########################### GETTER Y SETTERS ###########################*/
 	
@@ -70,20 +70,20 @@ public class Profesor {
 		this.email = email;
 	}
 
-	public String getContraseña() {
-		return contraseña;
+	public String getContrasena() {
+		return contrasena;
 	}
 
-	public void setContraseña(String contraseña) {
-		this.contraseña = contraseña;
+	public void setContrasena(String contraseña) {
+		this.contrasena = contraseña;
 	}
 
 	public boolean isDirectiva() {
-		return tipo;
+		return es_directivo;
 	}
 
 	public void setDirectiva(boolean tipo) {
-		this.tipo = tipo;
+		this.es_directivo = tipo;
 	}
 	
 	

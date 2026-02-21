@@ -1,6 +1,5 @@
 package com.proyecto.amieva.configuration;
 
-import org.springframework.security.core.userdetails.User;
 import org.springframework.boot.security.autoconfigure.web.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,11 +8,8 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 
@@ -31,12 +27,12 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(auth -> auth
             .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-            .requestMatchers("/login").permitAll()
-            .requestMatchers("/index","/home","/").hasAnyRole("USER", "ADMIN")
-            .requestMatchers("/home/**", "/index/**").hasAnyRole("USER", "ADMIN")
-            .requestMatchers(PathRequest.toH2Console()).hasRole("ADMIN")
-            .requestMatchers("/h2-console/**", "/h2/**").hasRole("ADMIN")
-            .requestMatchers("/index", "/editar/**", "/eliminar/**", "/administracion").hasRole("ADMIN")
+            .requestMatchers("/login", "/logout","/h2/**").permitAll()
+            .requestMatchers("/index","/home","/").hasAnyRole("DIRECTIVA", "PROFESOR")
+            .requestMatchers("/home/**", "/index/**").hasAnyRole("DIRECTIVA", "PROFESOR")
+            .requestMatchers("/alumnos", "/alumnos/**").hasAnyRole("DIRECTIVA", "PROFESOR")
+            .requestMatchers(PathRequest.toH2Console()).hasRole("DIRECTIVA")
+            .requestMatchers("/h2-console/**", "/h2/**").hasRole("DIRECTIVA")
             .anyRequest().authenticated()
         );
 
@@ -52,6 +48,11 @@ public class SecurityConfig {
         );
 
         http.logout(logout -> logout
+            .logoutUrl("/logout")
+            .logoutSuccessUrl("/login")
+            .invalidateHttpSession(true)
+            .clearAuthentication(true)
+            .deleteCookies("JSESSIONID")
             .permitAll()
         );
 
@@ -67,22 +68,5 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public UserDetailsService users(PasswordEncoder passwordEncoder) {
-        UserDetails user1 = User.builder()
-                .username("user1")
-                .password(passwordEncoder.encode("user1"))
-                .roles("USER")
-                .build();
-
-        UserDetails admin = User.builder()
-                .username("admin")
-                .password(passwordEncoder.encode("admin"))
-                .roles("ADMIN")
-                .build();
-
-        return new InMemoryUserDetailsManager(user1, admin);
     }
 }

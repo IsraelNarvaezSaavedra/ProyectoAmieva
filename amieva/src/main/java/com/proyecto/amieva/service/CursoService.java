@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.proyecto.amieva.entity.Curso;
 import com.proyecto.amieva.repository.CursoRepository;
@@ -19,22 +20,26 @@ public class CursoService {
 	}
 	
 	//Listar todos los cursos
+	@Transactional(readOnly = true)
 	public List<Curso> listarCursos() {
 		return cursoRepository.findAll();
 	}
 	
 	//El .orElseThrow es necesario porque el findById devuelve un Optional, y el orElseThrow se encarga de lanzar una excepcion si no se encuentra el curso con el id especificado
+	@Transactional(readOnly = true)
 	public Curso getCursoPorId(Long id, Curso curso) {
 		return cursoRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Curso no encontrado con ID: " + id));
 	}
 	
 	//Eliminar curso por id
+	@Transactional
 	public void eliminarCursoPorId(Long id) {
 		cursoRepository.deleteById(id);
 	}	
 	
 	//Guardar curso
+	@Transactional
 	public Curso guardarCurso(Curso curso) {
 		return cursoRepository.save(curso);
 	}

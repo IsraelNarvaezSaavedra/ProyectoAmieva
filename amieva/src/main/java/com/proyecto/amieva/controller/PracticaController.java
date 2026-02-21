@@ -77,6 +77,7 @@ public class PracticaController {
 		return "redirect:/practicas";
 	}
 	
+	
 	@PostMapping("/practicas/crear")
 	public String crearPractica(Practica practica, 
 								@RequestParam(required = false) Long alumnoId, 

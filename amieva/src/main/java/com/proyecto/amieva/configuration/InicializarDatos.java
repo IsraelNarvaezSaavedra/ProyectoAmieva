@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,10 +17,12 @@ import com.proyecto.amieva.entity.Alumno;
 import com.proyecto.amieva.entity.Curso;
 import com.proyecto.amieva.entity.Empresa;
 import com.proyecto.amieva.entity.Practica;
+import com.proyecto.amieva.entity.Profesor;
 import com.proyecto.amieva.repository.AlumnoRepository;
 import com.proyecto.amieva.repository.CursoRepository;
 import com.proyecto.amieva.repository.EmpresaRepository;
 import com.proyecto.amieva.repository.PracticaRepository;
+import com.proyecto.amieva.repository.ProfesorRepository;
 
 @Component
 @Transactional
@@ -36,13 +39,35 @@ public class InicializarDatos implements CommandLineRunner {
 
 	@Autowired
 	private PracticaRepository practicaRepository;
+	
+	@Autowired
+	private ProfesorRepository profesorRepository;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Override
 	@Transactional
 	public void run(String... args) throws Exception {
 		Faker faker = new Faker();
 		
-		for (int i = 0; i < 10; i++) {
+		//Usuarios de prueba con atributos conocidos para facilitar el testing
+		crearProfesorPrueba("Juan", "García", "juan@email.com", "juan123", true);
+		crearProfesorPrueba("María", "López", "maria@email.com", "maria123", false);
+		crearProfesorPrueba("Carlos", "Rodríguez", "carlos@email.com", "carlos123", false);
+		
+		
+		for (int i = 0; i < 7; i++) {
+			//Profesor
+			Profesor profesor = new Profesor();
+			profesor.setNombre(faker.name().firstName());
+			profesor.setApellidos(faker.name().lastName());
+			profesor.setEmail(faker.internet().emailAddress());
+			String contrasenaPlana = faker.internet().password(8, 16);
+			profesor.setContrasena(passwordEncoder.encode(contrasenaPlana));
+			profesor.setDirectiva(faker.bool().bool());
+			profesorRepository.save(profesor);
+			
             //Empresa
             Empresa empresa = new Empresa();
             empresa.setNombre(faker.company().name());
@@ -89,6 +114,16 @@ public class InicializarDatos implements CommandLineRunner {
             curso.setAlumnos(alumnosDelCurso);
             curso = cursoRepository.save(curso);
         }
+	}
+
+	private void crearProfesorPrueba(String nombre, String apellidos, String email, String contrasena, boolean esDirectivo) {
+		Profesor profesor = new Profesor();
+		profesor.setNombre(nombre);
+		profesor.setApellidos(apellidos);
+		profesor.setEmail(email);
+		profesor.setContrasena(passwordEncoder.encode(contrasena));
+		profesor.setDirectiva(esDirectivo);
+		profesorRepository.save(profesor);
 	}
 
 }
