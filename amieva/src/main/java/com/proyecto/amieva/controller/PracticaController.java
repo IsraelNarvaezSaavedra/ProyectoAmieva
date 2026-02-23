@@ -90,7 +90,7 @@ public class PracticaController {
 			Empresa empresa = empresaService.getEmpresaPorId(empresaId);
 			practica.setEmpresa(empresa);
 		}
-		practicaService.guardarPractica(practica);
+		practicaService.crearPractica(practica);
 		return "redirect:/practicas";
 	}
 	
