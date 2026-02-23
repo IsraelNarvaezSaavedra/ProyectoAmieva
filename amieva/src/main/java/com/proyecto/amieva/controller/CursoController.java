@@ -57,7 +57,7 @@ public class CursoController {
 	
 	@GetMapping("/cursos/eliminar")
 	public String eliminarCurso(Long id) {
-		// Verificar si el curso tiene alumnos asociados
+		//Verifica si hay alumnos en el curso
 		if (cursoService.tieneAlumnosAsociados(id)) {
 			return "redirect:/cursos?error=tiene-alumnos";
 		}

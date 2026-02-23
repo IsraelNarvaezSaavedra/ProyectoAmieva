@@ -38,11 +38,11 @@ public class AuthController {
 	
 	@GetMapping("/perfil")
 	public String showPerfil(Model model) {
-		// Obtener el usuario autenticado
+		//Obtiene el usuario que esta en la sesion
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String email = authentication.getName();
 		
-		// Buscar el profesor por email
+		//Busca por email el profesor
 		Profesor profesor = profesorRepository.findByEmail(email).orElse(null);
 		
 		if (profesor == null) {

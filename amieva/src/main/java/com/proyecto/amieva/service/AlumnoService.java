@@ -52,17 +52,15 @@ public class AlumnoService {
 		Alumno alumno = alumnoRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Alumno no encontrado con ID: " + id));
 		
-		// Eliminar el alumno del curso si pertenece a alguno
+		//Quita el alumno del curso en el que esté
 		if (alumno.getCurso() != null) {
 			Curso curso = alumno.getCurso();
 			curso.removeAlumno(alumno);
 			cursoRepository.save(curso);
 		}
 		
-		// Eliminar todas las prácticas asociadas
 		practicaRepository.deleteByAlumnoId(id);
 		
-		// Finalmente eliminar el alumno
 		alumnoRepository.deleteById(id);
 	}
 	

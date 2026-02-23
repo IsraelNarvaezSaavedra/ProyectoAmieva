@@ -56,7 +56,7 @@ public class EmpresaController {
 		return "redirect:/empresas";
 	}
 	
-	//Mira si hay emporesas con practicas asoiciadas
+	//Mira si hay empresas con practicas asoiciadas
 	@GetMapping("/empresas/eliminar")
 	public String eliminarEmpresa(Long id) {
 		

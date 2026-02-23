@@ -26,6 +26,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         
+    	//Autorizaciones
         http.authorizeHttpRequests(auth -> auth
             .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
             .requestMatchers("/login", "/logout").permitAll()
@@ -33,8 +34,6 @@ public class SecurityConfig {
             .requestMatchers("/cursos", "/cursos/**", "/profesores", "/profesores/**").hasRole("DIRECTIVA")
             .anyRequest().authenticated()
         );
-
-        http.csrf(csrf -> csrf.disable());
 
         http.formLogin(form -> form
         	.loginPage("/login")
@@ -44,6 +43,7 @@ public class SecurityConfig {
             .permitAll()
         );
 
+        //Cerrar sesión
         http.logout(logout -> logout
             .logoutUrl("/logout")
             .logoutSuccessUrl("/login")
