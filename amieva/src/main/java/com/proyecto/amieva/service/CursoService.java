@@ -27,7 +27,7 @@ public class CursoService {
 	
 	//El .orElseThrow es necesario porque el findById devuelve un Optional, y el orElseThrow se encarga de lanzar una excepcion si no se encuentra el curso con el id especificado
 	@Transactional(readOnly = true)
-	public Curso getCursoPorId(Long id, Curso curso) {
+	public Curso getCursoPorId(Long id) {
 		return cursoRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Curso no encontrado con ID: " + id));
 	}
@@ -42,6 +42,13 @@ public class CursoService {
 	@Transactional
 	public Curso guardarCurso(Curso curso) {
 		return cursoRepository.save(curso);
+	}
+	
+	//Verificar si un curso tiene alumnos asociados
+	@Transactional(readOnly = true)
+	public boolean tieneAlumnosAsociados(Long cursoId) {
+		Curso curso = getCursoPorId(cursoId);
+		return curso != null && !curso.getAlumnos().isEmpty();
 	}
 	
 	

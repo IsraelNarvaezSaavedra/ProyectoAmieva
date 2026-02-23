@@ -12,4 +12,6 @@ public interface ProfesorRepository extends JpaRepository<Profesor, Long> {
 	List<Profesor> findByNombre(String nombre);
 	
 	Profesor findByNombreIgnoreCase(String nombre);
+	
+	Optional<Profesor> findByEmail(String email);
 }

@@ -129,7 +129,7 @@
 
     <!-- Mensajes de error / éxito -->
     <div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>¡Error!</strong> Usuario o contraseña incorrectos.
+        <strong>¡Error!</strong> Email o contraseña incorrectos.
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     
@@ -140,11 +140,11 @@
 
     <form th:action="@{/login}" method="post">
         <div class="mb-4">
-            <label for="username" class="form-label">Usuario</label>
+            <label for="username" class="form-label">Email</label>
             <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
-                <input type="text" class="form-control" id="username" name="username" 
-                       placeholder="usuario" required autofocus>
+                <input type="email" class="form-control" id="username" name="username" 
+                       placeholder="email" required autofocus>
             </div>
         </div>
 

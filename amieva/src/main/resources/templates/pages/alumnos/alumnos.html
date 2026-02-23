@@ -48,7 +48,7 @@
                             <td th:text="${#temporals.format(alumno.fechaNacimiento, 'dd/MM/yyyy')}"></td>
                             <td th:text="${alumno.curso.nombre}"></td>
                             <td>
-                                <a th:href="@{/alumnos/editar(id=${alumno.id})}"
+                                <a th:href="@{/alumnos/editar/{id}(id=${alumno.id})}"
                                    class="btn btn-warning btn-sm shadow-sm me-1">
                                     <i class="bi bi-pencil-fill"></i> Editar
                                 </a>

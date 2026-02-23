@@ -66,5 +66,11 @@ public class AlumnoService {
 		alumnoRepository.deleteById(id);
 	}
 	
+	@Transactional
+	public Alumno guardarAlumno(Alumno alumno) {
+		return alumnoRepository.save(alumno);
+	}
+	
+	
 	
 }

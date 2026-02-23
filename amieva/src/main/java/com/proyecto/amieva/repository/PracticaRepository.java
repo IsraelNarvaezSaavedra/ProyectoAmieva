@@ -13,8 +13,14 @@ import com.proyecto.amieva.entity.Practica;
 public interface PracticaRepository extends JpaRepository<Practica, Long> {
 	List<Practica> findByAlumno(Alumno alumno);
 	
+	long countByEmpresaId(Long empresaId);
+	
 	@Modifying
 	@Query("DELETE FROM Practica p WHERE p.alumno.id = :alumnoId")
 	void deleteByAlumnoId(@Param("alumnoId") Long alumnoId);
+	
+	@Modifying
+	@Query("DELETE FROM Practica p WHERE p.empresa.id = :empresaId")
+	void deleteByEmpresaId(@Param("empresaId") Long empresaId);
 
 }

@@ -49,6 +49,11 @@ public class InicializarDatos implements CommandLineRunner {
 	@Override
 	@Transactional
 	public void run(String... args) throws Exception {
+		// Verificar si la base de datos ya está poblada
+		if (profesorRepository.count() > 0) {
+			return; // La base de datos ya tiene datos, no insertar más
+		}
+		
 		Faker faker = new Faker();
 		
 		//Usuarios de prueba con atributos conocidos para facilitar el testing

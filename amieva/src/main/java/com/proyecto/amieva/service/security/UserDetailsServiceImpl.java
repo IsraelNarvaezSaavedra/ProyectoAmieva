@@ -1,7 +1,6 @@
 package com.proyecto.amieva.service.security;
 
 import org.springframework.security.core.userdetails.*;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import com.proyecto.amieva.entity.Profesor;
@@ -17,17 +16,22 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	  }
 
 	  @Override
-	  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-	    Profesor profesor = profesorRepository.findByNombreIgnoreCase(username);
-
-	    if (profesor == null) {
-	      throw new UsernameNotFoundException("Usuario no encontrado: " + username);
-	    }
-
-	    return User.withUsername(profesor.getNombre())
-	      .password(profesor.getContrasena())       
-	      .roles(profesor.isDirectiva() ? "DIRECTIVA" : "PROFESOR")      
-	      .build();
+	  public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+	    
+	    Profesor profesor = profesorRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Profesor no encontrado con email: " + email));
+        
+        return User.builder()
+      	      .username(profesor.getEmail())
+    	      .password(profesor.getContrasena())
+    	      .roles(profesor.isDirectiva() ? "DIRECTIVA" : "PROFESOR")
+    	      .accountExpired(false)
+    	      .accountLocked(false)
+    	      .credentialsExpired(false)
+    	      .disabled(false)
+    	      .build();
+        
+        
 	  }
 }
+
